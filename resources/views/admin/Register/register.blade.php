@@ -9,15 +9,20 @@
         <div class="card card-register mx-auto mt-5">
             <div class="card-header">Register an Account</div>
             <div class="card-body">
-                <form action="{{route('register')}}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('register') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <div class="form-row">
 
                             <label for="exampleInputFirstname">Firstname</label>
                             <input class="form-control" id="exampleInputFirstname" type="text"
-                                aria-describedby="FirstnameHelp" placeholder="Enter your Firstname">
-
+                                aria-describedby="FirstnameHelp" placeholder="Enter your Firstname" name="firstname"
+                                value="{{ old('firstname') }}">
+                            <span class="text-danger">
+                                @error('firstname')
+                                    {{ $message }}
+                                @enderror
+                            </span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -25,14 +30,24 @@
 
                             <label for="exampleInputLastname">Lastname</label>
                             <input class="form-control" id="exampleInputLastname" type="text"
-                                aria-describedby="LastnameHelp" placeholder="Enter your Lastname">
-
+                                aria-describedby="LastnameHelp" placeholder="Enter your Lastname" name="lastname"
+                                value="{{ old('lastname') }}">
+                            <span class="text-danger">
+                                @error('lastname')
+                                    {{ $message }}
+                                @enderror
+                            </span>
                         </div>
                     </div>
                     <div class="form-row">
                         <label for="exampleInputEmail1">Email address</label>
                         <input class="form-control" id="exampleInputEmail1" type="email" aria-describedby="emailHelp"
-                            placeholder="Enter email">
+                            placeholder="Enter email" value="{{ old('email') }}" name="email">
+                        <span class="text-danger">
+                            @error('email')
+                                {{ $message }}
+                            @enderror
+                        </span>
                     </div>
                     <div class="form-check px-0 d-flex mt-2" style="flex-direction:column;">
                         <label for="dob">Choose Gender :</label>
@@ -324,12 +339,22 @@
                             <div class="col-md-6">
                                 <label for="exampleInputPassword1">Password</label>
                                 <input class="form-control" id="exampleInputPassword1" type="password"
-                                    placeholder="Password">
+                                    placeholder="Password" name="password">
+                                <span class="text-danger">
+                                    @error('password')
+                                        {{ $message }}
+                                    @enderror
+                                </span>
                             </div>
                             <div class="col-md-6">
                                 <label for="exampleConfirmPassword">Confirm password</label>
                                 <input class="form-control" id="exampleConfirmPassword" type="password"
-                                    placeholder="Confirm password">
+                                    placeholder="Confirm password" name="cpassword">
+                                <span class="text-danger">
+                                    @error('cpassword')
+                                        {{ $message }}
+                                    @enderror
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -338,7 +363,7 @@
                         <button class="btn btn-primary my-3">Register</button>
                         <div class="">
                             <a class="d-block small" href="">Forgot Password?</a>
-                            <a class="d-block small mt-3" href="{{route('login')}}">Login Page</a>
+                            <a class="d-block small mt-3" href="{{ route('login') }}">Login Page</a>
                         </div>
                     </div>
                 </form>

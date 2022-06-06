@@ -6,16 +6,28 @@
 
 @section('content')
     <div class="login-box" style="
-    height: 600px;
-    display: flex;
-    align-items: center;
-    ">
+        height: 600px;
+        display: flex;
+        align-items: center;
+        ">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <div class="card">
                         <div class="card-header">{{ __('Login') }}</div>
+                        <div class="session my-2">
+                            @if (session('status'))
+                                <h6 class="alert alert-success">{{ session('status') }}</h6>
+                            @endif
+                            @if (session('failed'))
+                                <h6 class="alert alert-danger">{{ session('failed') }}</h6>
+                            @endif
 
+                            {{-- <p>{{session('user')}}</p>
+                            <p>{{session('id')}}</p> --}}
+
+
+                        </div>
                         <div class="card-body">
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf
