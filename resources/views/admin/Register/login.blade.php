@@ -17,10 +17,20 @@
                         <div class="card-header">{{ __('Login') }}</div>
                         <div class="session my-2">
                             @if (session('status'))
-                                <h6 class="alert alert-success">{{ session('status') }}</h6>
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ session('status') }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
                             @endif
                             @if (session('failed'))
-                                <h6 class="alert alert-danger">{{ session('failed') }}</h6>
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {{ session('failed') }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
                             @endif
 
                             {{-- <p>{{session('user')}}</p>

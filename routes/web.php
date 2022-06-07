@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,8 +17,15 @@ Route::group(["prefix" => "/admin"], function(){
     Route::get('/register', [AdminController::class, 'viewRegister'])->name('register');
     Route::post('/register', [AdminController::class, 'store'])->name('register');
     Route::get('/login', [AdminController::class, 'viewLogin'])->name('login');
+    Route::post('/login', [AdminController::class, 'login'])->name('login');
     Route::get('/dashboard', [AdminController::class, 'viewDashboard'])->name('dashboard');
     Route::get('/users', [AdminController::class, 'viewUsers'])->name('users');
+    Route::get('/add-admin', [AdminController::class, 'viewAddAdmin'])->name('add');
+    Route::post('/add-admin', [AdminController::class, 'addAdmin'])->name('add');
+    Route::get('users/edit-user/{id}', [AdminController::class, 'viewUpdateAdmin']);
+    Route::post('users/edit-user/{id}', [AdminController::class, 'updateAdmin']);
+    Route::get('users/delete-user/{id}', [AdminController::class, 'deleteAdmin']);
+
 
 
 });
