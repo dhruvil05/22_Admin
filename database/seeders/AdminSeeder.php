@@ -20,7 +20,7 @@ class AdminSeeder extends Seeder
     {
         // $faker = Faker::create();
         $faker = Faker::create();
-        for($i=1; $i<10; $i++){
+        for($i=1; $i<100; $i++){
 
             $admin = new Admin;
             $admin->firstname = $faker->firstname;

@@ -7,6 +7,9 @@ use App\Models\Admin;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cookie;
 
 class AdminController extends Controller
 {
@@ -26,10 +29,63 @@ class AdminController extends Controller
         return view('admin.Register.login');
     }
 
+    public function login(Request $request)
+    {
+
+        // echo "<pre>";
+        // print_r($request->all());
+        $email = $request->email;
+        $password = $request->password;
+
+        if ($request->remember_me == 1) {
+            $cookie =  Cookie::queue('email', $email, time() + 31536000);
+        } else {
+            $cookie =  Cookie::queue('email', '', time() - 100);
+        }
+        if (DB::table('admins')->where('email', $email)->where('password', $password)->first()) {
+
+            $user = DB::table('admins')->where('email', $email)->where('password', $password)->first();
+            $id = $user->id;
+            $email = $user->email;
+            // $password = $user->$password;
+
+            $request->session()->put('email', $email);
+            $request->session()->put('id', $id);
+            // $request->session()->put('password', $password);
+            // $session = session()->all();
+            // print_r($session);
+
+            return redirect('admin/dashboard')->with('status', " User login Successfully");
+        } else {
+            return redirect('admin/login')->with('failed', " login failed try again");
+        }
+    }
+
+    public function viewProfile()
+    {
+        return view('admin.profile');
+    }
+    public function logout()
+    {
+
+
+        if (session()->has('email', 'id')) {
+            session()->forget(['email', 'id']);
+            return redirect('admin/login')->with('success', " logout successfully");
+        } else {
+            return redirect('admin/dashboard')->with('failed', " logout faield, try again");
+        }
+    }
+
+
     public function viewDashboard()
     {
         $admin = Admin::all();
-        return view('admin.dashboard', compact('admin'));
+        $genderF = Admin::where('gender', 'F')->get();
+        $genderM = Admin::where('gender', 'M')->get();
+        $genderO = Admin::where('gender', 'O')->get();
+
+        return view('admin.dashboard', compact('admin', 'genderF', 'genderM', 'genderO'));
     }
 
     public function viewUsers(Request $request)
@@ -39,12 +95,6 @@ class AdminController extends Controller
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->filter(function ($instance) use ($request) {
-                    // if (!empty($request->get('email'))) {
-                    //     $instance->collection = $instance->collection->filter(function ($row) use ($request) {
-                    //         return Str::contains($row['email'], $request->get('email')) ? true : false;
-                    //     });
-                    // }
-
                     if (!empty($request->get('search'))) {
                         $instance->collection = $instance->collection->filter(function ($row) use ($request) {
                             if (Str::contains(Str::lower($row['firstname']), Str::lower($request->get('search')))) {
@@ -78,16 +128,13 @@ class AdminController extends Controller
                     return $formatedDate;
                 })
                 ->addColumn('action', function ($row) {
-
                     $btn = '<a href="users/edit-user/' . $row->id . '" class="edit btn btn-primary btn-sm d-flex">Edit</a>
                            <a href="users/delete-user/' . $row->id . '" class="delete btn btn-danger btn-sm mt-2 d-flex" >Delete</a>';
-
                     return $btn;
                 })
                 ->rawColumns(['action'])
                 ->make(true);
         }
-
         // return view('home');
         return view('admin.users');
     }
@@ -96,6 +143,7 @@ class AdminController extends Controller
     {
         return view('admin.add_admin');
     }
+
     public function addAdmin(Request $request)
     {
         $request->validate([
@@ -123,7 +171,6 @@ class AdminController extends Controller
             $admin->image = $filename;
         }
         $admin->save();
-
         return redirect('/admin/users')->with('status', 'Admin Added successfullhy');
         // return view('admin.add_admin');
     }
@@ -133,6 +180,7 @@ class AdminController extends Controller
         $admin = Admin::find($id);
         return view('admin.update_admin', compact('admin'));
     }
+
     public function updateAdmin(Request $request, $id)
     {
         $admin = Admin::find($id);
@@ -166,24 +214,17 @@ class AdminController extends Controller
             return redirect('/admin/users')->with('status', 'User Data Updated Successfully');
         } else {
 
-            return redirect('/admin/users')->with('failed', 'User Data not Updated ');
+            return redirect()->back()->with('failed', 'User Data not Updated ');
         }
         // return view('admin.update_admin', compact('admin'));
     }
-
-    
 
     public function index()
     {
         //
     }
 
-    public function login(Request $request)
-    {
 
-        echo "<pre>";
-        print_r($request->all());
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -279,17 +320,18 @@ class AdminController extends Controller
         //
     }
 
-    public function deleteAdmin($id){
-       
-            $admin = Admin::find($id);
-            $destination = 'uploads/cover/' . $admin->image;
-    
-    
-            if (File::exists($destination)) {
-                File::delete($destination);
-            }
-            $admin->delete();
-       
+    public function deleteAdmin($id)
+    {
+
+        $admin = Admin::find($id);
+        $destination = 'uploads/cover/' . $admin->image;
+
+
+        if (File::exists($destination)) {
+            File::delete($destination);
+        }
+        $admin->delete();
+
         return redirect('/admin/users')->with('status', 'Admin Data Deleted Successfully');
     }
 }
