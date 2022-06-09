@@ -59,12 +59,12 @@
                         {{-- <h6 class="alert alert-success">{{ session('status') }}</h6> --}}
                     @endif
                     @if (session('failed'))
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        {{ session('failed') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ session('failed') }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
                         {{-- <h6 class="alert alert-danger">{{ session('failed') }}</h6> --}}
                     @endif
 
@@ -73,19 +73,31 @@
 
 
                 </div>
-                <div class="container my-3">
-                    <div class="row d-flex justify-content-between">
-
-
-
-                        <div class="search">
-                            <input type="search" name="searchIn" class="form-control search" placeholder="Search">
+                <div class=" my-3 px-2">
+                    {{-- <div class="searching ml-2">
+                        <input type="search" name="searchIn" class="form-control search" placeholder="Search">
+                    </div> --}}
+                    <b class="pb-2"> Advance Search By</b>
+                    <div class="row d-flex justify-content-equal w-100">
+                        <div class="firstname ml-2">
+                            <input type="text" name="firstnameIn" class="form-control search" placeholder="Firstname">
                         </div>
-
-                        <div class="create">
+                        <div class="lastname ml-2">
+                            <input type="text" name="lastnameIn" class="form-control search" placeholder="Lastname">
+                        </div>
+                        <div class="email ml-2">
+                            <input type="email" name="emailIn" class="form-control search" placeholder="Email">
+                        </div>
+                        <div class="gender ml-2">
+                            <input type="text" name="genderIn" class="form-control search" placeholder="gender">
+                        </div>
+                        <div class="country ml-2">
+                            <input type="text" name="countryIn" class="form-control search" placeholder="country">
+                        </div>
+                        {{-- <div class="create">
                             <a href="{{route('add')}}" class="btn btn-primary float-right">Add
                                 User</a>
-                        </div>
+                        </div> --}}
 
                     </div>
 
@@ -130,8 +142,13 @@
                     url: "{{ url('/admin/users') }}",
 
                     data: function(d) {
+                        // d.search = $('input[name="searchIn"]').val()
                         // d.string = $('.search').val(),
-                        d.search = $('input[type="search"]').val()
+                        d.firstname = $('input[name="firstnameIn"]').val()
+                        d.lastname = $('input[name="lastnameIn"]').val()
+                        d.email = $('input[name="emailIn"]').val()
+                        d.gender = $('input[name="genderIn"]').val()
+                        d.country = $('input[name="countryIn"]').val()
                     }
                 },
                 columns: [
@@ -183,6 +200,7 @@
             $(".search").keyup(function() {
                 // console.log($('.search').val());
                 table.draw();
+
             });
 
         });

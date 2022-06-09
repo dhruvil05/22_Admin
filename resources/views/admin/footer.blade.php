@@ -2,7 +2,7 @@
     <strong>Copyright &copy; 2022 <a href="">AdminPanel</a>.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
-        <b>Version</b> 3.2.0
+        <b>Version</b> 1.0.0
     </div>
 </footer>
 
@@ -27,10 +27,10 @@ $.widget.bridge('uibutton', $.ui.button)
 <!-- ChartJS -->
 <script src="{{asset('plugins/chart.js/Chart.min.js')}}"></script>
 <!-- Sparkline -->
-<script src="{{asset('plugins/sparklines/sparkline.js')}}"></script>
+{{-- <script src="{{asset('plugins/sparklines/sparkline.js')}}"></script> --}}
 <!-- JQVMap -->
-<script src="{{asset('plugins/jqvmap/jquery.vmap.min.js')}}"></script>
-<script src="{{asset('plugins/jqvmap/maps/jquery.vmap.usa.js')}}"></script>
+{{-- <script src="{{asset('plugins/jqvmap/jquery.vmap.min.js')}}"></script> --}}
+{{-- <script src="{{asset('plugins/jqvmap/maps/jquery.vmap.usa.js')}}"></script> --}}
 <!-- jQuery Knob Chart -->
 <script src="{{asset('plugins/jquery-knob/jquery.knob.min.js')}}"></script>
 <!-- daterangepicker -->
@@ -47,7 +47,7 @@ $.widget.bridge('uibutton', $.ui.button)
 <!-- AdminLTE for demo purposes -->
 <script src="{{asset('dist/js/demo.js')}}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{{asset('dist/js/pages/dashboard.js')}}"></script>
+{{-- <script src="{{asset('dist/js/pages/dashboard.js')}}"></script> --}}
 </body>
 
 </html>

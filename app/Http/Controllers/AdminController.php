@@ -34,6 +34,14 @@ class AdminController extends Controller
 
         // echo "<pre>";
         // print_r($request->all());
+
+        $request->validate([
+            
+            'email' => 'required|email',
+            'password' => "required",
+           
+            
+        ]);
         $email = $request->email;
         $password = $request->password;
 
@@ -55,15 +63,18 @@ class AdminController extends Controller
             // $session = session()->all();
             // print_r($session);
 
-            return redirect('admin/dashboard')->with('status', " User login Successfully");
+            return redirect('admin/dashboard')->with('status', " $email login Successfully");
         } else {
             return redirect('admin/login')->with('failed', " login failed try again");
         }
     }
 
-    public function viewProfile()
+    public function viewProfile(Request $request, $id)
     {
-        return view('admin.profile');
+        $user = Admin::find($id);
+        // echo '<pre>';
+        // print_r($user);
+        return view('admin.profile', compact('user'));
     }
     public function logout()
     {
@@ -95,23 +106,53 @@ class AdminController extends Controller
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->filter(function ($instance) use ($request) {
-                    if (!empty($request->get('search'))) {
-                        $instance->collection = $instance->collection->filter(function ($row) use ($request) {
-                            if (Str::contains(Str::lower($row['firstname']), Str::lower($request->get('search')))) {
-                                return true;
-                            } else if (Str::contains(Str::lower($row['lastname']), Str::lower($request->get('search')))) {
-                                return true;
-                            } else if (Str::contains(Str::lower($row['email']), Str::lower($request->get('search')))) {
-                                return true;
-                            } else if (Str::contains(Str::lower($row['gender']), Str::lower($request->get('search')))) {
-                                return true;
-                            } else if (Str::contains(Str::lower($row['country']), Str::lower($request->get('search')))) {
-                                return true;
-                            } else if (Str::contains(Str::lower($row['created_at']), Str::lower($request->get('search')))) {
-                                return true;
-                            }
-                            return false;
-                        });
+                    if (!empty($request->all(['firstname', 'lastname', 'email', 'gender']))) {
+                        if (!empty($request->get('firstname'))) {
+                            $instance->collection = $instance->collection->filter(function ($row) use ($request) {
+                                return Str::contains(Str::lower($row['firstname']), $request->get('firstname')) ? true : false;
+                            });
+                        }
+
+                        if (!empty($request->get('lastname'))) {
+                            $instance->collection = $instance->collection->filter(function ($row) use ($request) {
+                                return Str::contains(Str::lower($row['lastname']), $request->get('lastname')) ? true : false;
+                            });
+                        }
+
+                        if (!empty($request->get('email'))) {
+                            $instance->collection = $instance->collection->filter(function ($row) use ($request) {
+                                return Str::contains(Str::lower($row['email']), $request->get('email')) ? true : false;
+                            });
+                        }
+
+                        if (!empty($request->get('gender'))) {
+                            $instance->collection = $instance->collection->filter(function ($row) use ($request) {
+                                return Str::contains(Str::lower($row['gender']), $request->get('gender')) ? true : false;
+                            });
+                        }
+
+                        if (!empty($request->get('country'))) {
+                            $instance->collection = $instance->collection->filter(function ($row) use ($request) {
+                                return Str::contains(Str::lower($row['country']), $request->get('country')) ? true : false;
+                            });
+                        }
+
+                        // $instance->collection = $instance->collection->filter(function ($row) use ($request) {
+                        //     if (Str::contains(Str::lower($row['firstname']), Str::lower($request->get('search')))) {
+                        //         return true;
+                        //     } else if (Str::contains(Str::lower($row['lastname']), Str::lower($request->get('search')))) {
+                        //         return true;
+                        //     } else if (Str::contains(Str::lower($row['email']), Str::lower($request->get('search')))) {
+                        //         return true;
+                        //     } else if (Str::contains(Str::lower($row['gender']), Str::lower($request->get('search')))) {
+                        //         return true;
+                        //     } else if (Str::contains(Str::lower($row['country']), Str::lower($request->get('search')))) {
+                        //         return true;
+                        //     } else if (Str::contains(Str::lower($row['created_at']), Str::lower($request->get('search')))) {
+                        //         return true;
+                        //     }
+                        //     return false;
+                        // });
                     }
                 })
                 ->editColumn('gender', function ($row) {

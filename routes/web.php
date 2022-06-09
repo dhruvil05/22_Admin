@@ -22,7 +22,7 @@ Route::group(["prefix" => "/admin"], function () {
     Route::get('/logout', [AdminController::class, 'logout'])->name('logout');
     Route::get('/dashboard', [AdminController::class, 'viewDashboard'])->name('dashboard')->middleware('login');
     Route::get('/users', [AdminController::class, 'viewUsers'])->name('users')->middleware('login');
-    Route::get('/profile', [AdminController::class, 'viewProfile'])->name('profile')->middleware('login');
+    Route::get('/profile/{id}', [AdminController::class, 'viewProfile'])->name('profile')->middleware('login');
     Route::get('/add-admin', [AdminController::class, 'viewAddAdmin'])->name('add')->middleware('login');
     Route::post('/add-admin', [AdminController::class, 'addAdmin'])->name('add')->middleware('login');
     Route::get('users/edit-user/{id}', [AdminController::class, 'viewUpdateAdmin'])->middleware('login');

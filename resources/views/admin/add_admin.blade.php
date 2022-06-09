@@ -1,7 +1,7 @@
 @extends('admin.master')
 
 @push('title')
-    <title>Add Admin</title>
+    <title>Add User</title>
 @endpush
 
 @section('content')
@@ -11,12 +11,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Add Admin</h1>
+                        <h1 class="m-0">Add User</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-                            <li class="breadcrumb-item active">Create admin</li>
+                            <li class="breadcrumb-item active">Add User</li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->

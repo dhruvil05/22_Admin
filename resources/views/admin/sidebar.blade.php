@@ -14,7 +14,7 @@
                 <img src="{{asset('dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="{{route('profile')}}" class="d-block">Profile</a>
+                <a href="{{url('admin/profile/'.session()->get('id')) }}" class="d-block">{{session()->get('email')}}</a>
             </div>
         </div>
 
@@ -68,10 +68,19 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{route('users')}}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-users"></i>
                         <p>
                             Users
                             <span class="right badge badge-danger">New</span>
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('add')}}" class="nav-link">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>
+                            Add User
+                            {{-- <span class="right badge badge-danger"></span> --}}
                         </p>
                     </a>
                 </li>

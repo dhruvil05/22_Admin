@@ -48,7 +48,11 @@
                                     <div class="col-md-6">
                                         <input id="email" type="email" class="form-control" name="email"
                                             value="{{ old('email') }}" required autofocus>
-
+                                            <span class="text-danger">
+                                                @error('email')
+                                                    {{ $message }}
+                                                @enderror
+                                            </span>
                                         {{-- @if ($errors->has('email'))
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $errors->first('email') }}</strong>
@@ -64,7 +68,11 @@
                                     <div class="col-md-6">
                                         <input id="password" type="password" class="form-control" name="password"
                                             required>
-
+                                            <span class="text-danger">
+                                                @error('password')
+                                                    {{ $message }}
+                                                @enderror
+                                            </span>
                                         {{-- @if ($errors->has('password'))
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $errors->first('password') }}</strong>
