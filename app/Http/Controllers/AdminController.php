@@ -321,12 +321,18 @@ class AdminController extends Controller
         }
         // $data = ['name'=> 'dhruvil', 'data'=>'hello dhruvil'];
         // $user['to'] = 'dhruvil.patel23117@gmail.com';
-        Mail::raw("This is automatically generated Mail \n Admin Panel Password :  $admin->password >", function ($message) use ($admin) {
+        $admin->save();
+
+        $mail_data = [
+            'email'=> $admin->email,
+            'password'=> $admin->password,
+        ];
+        // $user = array($admin);
+        Mail::send('admin.mail', $mail_data, function ($message) use ($mail_data) {
             $message->from('softsales07@gmail.com'); 
-            $message->to($admin->email);
+            $message->to($mail_data['email']);
             $message->subject("Login Info");
         });
-        $admin->save();
 
         
         return redirect('/admin/login')->with('status', 'Registration successfullhy');
