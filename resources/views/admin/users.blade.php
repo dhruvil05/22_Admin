@@ -79,19 +79,19 @@
                     </div> --}}
                     <b class="pb-2"> Advance Search By</b>
                     <div class="row d-flex justify-content-equal w-100">
-                        <div class="firstname ml-2">
+                        <div class="firstname ml-2 mt-2">
                             <input type="text" name="firstnameIn" class="form-control search" placeholder="Firstname">
                         </div>
-                        <div class="lastname ml-2">
+                        <div class="lastname ml-2 mt-2">
                             <input type="text" name="lastnameIn" class="form-control search" placeholder="Lastname">
                         </div>
-                        <div class="email ml-2">
+                        <div class="email ml-2 mt-2">
                             <input type="email" name="emailIn" class="form-control search" placeholder="Email">
                         </div>
-                        <div class="gender ml-2">
+                        <div class="gender ml-2 mt-2">
                             <input type="text" name="genderIn" class="form-control search" placeholder="gender">
                         </div>
-                        <div class="country ml-2">
+                        <div class="country ml-2 mt-2">
                             <input type="text" name="countryIn" class="form-control search" placeholder="country">
                         </div>
                         {{-- <div class="create">
@@ -105,7 +105,7 @@
                 <table class="table table-bordered data-table w-100">
                     <thead>
                         <tr>
-
+                           
                             <th>Firstname</th>
                             <th>Lastname</th>
                             <th>Email</th>

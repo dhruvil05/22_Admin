@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
 {
@@ -36,11 +37,11 @@ class AdminController extends Controller
         // print_r($request->all());
 
         $request->validate([
-            
+
             'email' => 'required|email',
             'password' => "required",
-           
-            
+
+
         ]);
         $email = $request->email;
         $password = $request->password;
@@ -55,10 +56,14 @@ class AdminController extends Controller
             $user = DB::table('admins')->where('email', $email)->where('password', $password)->first();
             $id = $user->id;
             $email = $user->email;
+            $image = $user->image;
+
             // $password = $user->$password;
 
             $request->session()->put('email', $email);
             $request->session()->put('id', $id);
+            $request->session()->put('image',$image);
+
             // $request->session()->put('password', $password);
             // $session = session()->all();
             // print_r($session);
@@ -248,6 +253,9 @@ class AdminController extends Controller
             $filename = time() . '.' . $extention;
             $file->move('uploads/cover/', $filename);
             $admin->image = $filename;
+            $image=$admin->image;
+            $request->session()->put('image',$image);
+
         }
 
         if ($admin->update()) {
@@ -311,8 +319,16 @@ class AdminController extends Controller
             $file->move('uploads/cover/', $filename);
             $admin->image = $filename;
         }
+        // $data = ['name'=> 'dhruvil', 'data'=>'hello dhruvil'];
+        // $user['to'] = 'dhruvil.patel23117@gmail.com';
+        Mail::raw("This is automatically generated Mail \n Admin Panel Password :  $admin->password >", function ($message) use ($admin) {
+            $message->from('softsales07@gmail.com'); 
+            $message->to($admin->email);
+            $message->subject("Login Info");
+        });
         $admin->save();
 
+        
         return redirect('/admin/login')->with('status', 'Registration successfullhy');
     }
 
@@ -358,12 +374,6 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
-        //
-    }
-
-    public function deleteAdmin($id)
-    {
-
         $admin = Admin::find($id);
         $destination = 'uploads/cover/' . $admin->image;
 
@@ -374,5 +384,9 @@ class AdminController extends Controller
         $admin->delete();
 
         return redirect('/admin/users')->with('status', 'Admin Data Deleted Successfully');
+    }
+
+    public function deleteAdmin($id)
+    {
     }
 }

@@ -362,7 +362,7 @@
 
                         <button class="btn btn-primary my-3">Register</button>
                         <div class="">
-                            <a class="d-block small" href="">Forgot Password?</a>
+                            {{-- <a class="d-block small" href="">Forgot Password?</a> --}}
                             <a class="d-block small mt-3" href="{{ route('login') }}">Login Page</a>
                         </div>
                     </div>

@@ -110,7 +110,7 @@
                             </form>
                             <div class="text-center">
                                 <a class="d-block small mt-3" href="{{ route('register') }}">Register Page</a>
-                                <a class="d-block small" href="">Forgot Password?</a>
+                                {{-- <a class="d-block small" href="">Forgot Password?</a> --}}
                             </div>
                         </div>
                     </div>
