@@ -28,6 +28,9 @@ Route::group(["prefix" => "/admin"], function () {
     Route::get('users/edit-user/{id}', [AdminController::class, 'viewUpdateAdmin'])->middleware('login');
     Route::post('users/edit-user/{id}', [AdminController::class, 'updateAdmin'])->middleware('login');
     Route::get('users/delete-user/{id}', [AdminController::class, 'destroy'])->middleware('login');
+
+    Route::get('/getdata', [AdminController::class, 'getData']);
+
 });
 
 

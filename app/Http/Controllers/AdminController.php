@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Mail;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
@@ -23,6 +24,29 @@ class AdminController extends Controller
     public function viewRegister()
     {
         return view('admin.Register.register');
+    }
+
+    public function getData()
+    {
+        // $today = Carbon::today()->format('Y-m-d H:i:s');
+        $all = DB::table('admins')->get();
+        foreach ($all as $item) {
+            $email = $item->email;
+            $date = get_formatted_date($item->created_at, "d-m-Y");
+            $currentDate = date('d-m-Y');
+            if ($date == $currentDate) {
+
+                echo "<pre>";
+                print_r($date);
+                echo "<pre>";
+                print_r($email);
+            }
+            // print_r($currentDate);
+
+
+        }
+
+        // $user = DB::table('admins')->where('created_at', $today)->get();
     }
 
     public function viewLogin()
@@ -62,7 +86,7 @@ class AdminController extends Controller
 
             $request->session()->put('email', $email);
             $request->session()->put('id', $id);
-            $request->session()->put('image',$image);
+            $request->session()->put('image', $image);
 
             // $request->session()->put('password', $password);
             // $session = session()->all();
@@ -253,9 +277,8 @@ class AdminController extends Controller
             $filename = time() . '.' . $extention;
             $file->move('uploads/cover/', $filename);
             $admin->image = $filename;
-            $image=$admin->image;
-            $request->session()->put('image',$image);
-
+            $image = $admin->image;
+            $request->session()->put('image', $image);
         }
 
         if ($admin->update()) {
@@ -324,17 +347,17 @@ class AdminController extends Controller
         $admin->save();
 
         $mail_data = [
-            'email'=> $admin->email,
-            'password'=> $admin->password,
+            'email' => $admin->email,
+            'password' => $admin->password,
         ];
         // $user = array($admin);
         Mail::send('admin.mail', $mail_data, function ($message) use ($mail_data) {
-            $message->from('softsales07@gmail.com'); 
+            $message->from('dhruvil.patel23117@gmail.com');
             $message->to($mail_data['email']);
             $message->subject("Login Info");
         });
 
-        
+
         return redirect('/admin/login')->with('status', 'Registration successfullhy');
     }
 

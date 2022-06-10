@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         <div class="header">
-                <p> <b>Congratulation</b> ,<br> you are now member of our site.</p>
+                <p> <b>Congratulation</b> ,<br> you are now one of the Admin.</p>
         </div>
         <div class="body">
             <p>Account Email : <b>{{$email}}</b></p>
