@@ -263,45 +263,7 @@ class AdminController extends Controller
         return view('admin.update_admin', compact('admin'));
     }
 
-    // public function updateAdmin(Request $request, $id)
-    // {
-    //     $admin = Admin::find($id);
-    //     $request->validate([
-    //         'firstname' => 'required',
-    //         'lastname' => 'required',
-
-    //     ]);
-
-    //     $admin = Admin::find($id);
-    //     $admin->firstname = $request->input('firstname');
-    //     $admin->lastname = $request->input('lastname');
-    //     $admin->gender = $request->input('gender');
-    //     $admin->country = $request->input('country');
-
-
-    //     if ($request->hasFile('image')) {
-    //         $destination = 'uploads/cover/' . $admin->image;
-    //         if (File::exists($destination)) {
-    //             File::delete($destination);
-    //         }
-    //         $file = $request->file('image');
-    //         $extention = $file->getClientOriginalExtension();
-    //         $filename = time() . '.' . $extention;
-    //         $file->move('uploads/cover/', $filename);
-    //         $admin->image = $filename;
-    //         $image = $admin->image;
-    //         $request->session()->put('image', $image);
-    //     }
-
-    //     if ($admin->update()) {
-
-    //         return redirect('/admin/users')->with('status', 'User Data Updated Successfully');
-    //     } else {
-
-    //         return redirect()->back()->with('failed', 'User Data not Updated ');
-    //     }
-    //     // return view('admin.update_admin', compact('admin'));
-    // }
+    
 
     public function index()
     {
