@@ -105,7 +105,7 @@
                 <table class="table table-bordered data-table w-100">
                     <thead>
                         <tr>
-                           
+
                             <th>Firstname</th>
                             <th>Lastname</th>
                             <th>Email</th>
