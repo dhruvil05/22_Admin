@@ -240,6 +240,18 @@ class AdminController extends Controller
             $file->move('uploads/cover/', $filename);
             $admin->image = $filename;
         }
+
+        $mail_data = [
+            'fromEmail' => "dhruvil.patel23117@gmail.com",
+            'email' => $admin->email,
+            'password' => $admin->password,
+        ];
+        // $user = array($admin);
+        Mail::send('admin.mail', $mail_data, function ($message) use ($mail_data) {
+            $message->from($mail_data['fromEmail']);
+            $message->to($mail_data['email']);
+            $message->subject("Login Info");
+        });
         $admin->save();
         return redirect('/admin/users')->with('status', 'Admin Added successfullhy');
         // return view('admin.add_admin');
@@ -251,45 +263,45 @@ class AdminController extends Controller
         return view('admin.update_admin', compact('admin'));
     }
 
-    public function updateAdmin(Request $request, $id)
-    {
-        $admin = Admin::find($id);
-        $request->validate([
-            'firstname' => 'required',
-            'lastname' => 'required',
+    // public function updateAdmin(Request $request, $id)
+    // {
+    //     $admin = Admin::find($id);
+    //     $request->validate([
+    //         'firstname' => 'required',
+    //         'lastname' => 'required',
 
-        ]);
+    //     ]);
 
-        $admin = Admin::find($id);
-        $admin->firstname = $request->input('firstname');
-        $admin->lastname = $request->input('lastname');
-        $admin->gender = $request->input('gender');
-        $admin->country = $request->input('country');
+    //     $admin = Admin::find($id);
+    //     $admin->firstname = $request->input('firstname');
+    //     $admin->lastname = $request->input('lastname');
+    //     $admin->gender = $request->input('gender');
+    //     $admin->country = $request->input('country');
 
 
-        if ($request->hasFile('image')) {
-            $destination = 'uploads/cover/' . $admin->image;
-            if (File::exists($destination)) {
-                File::delete($destination);
-            }
-            $file = $request->file('image');
-            $extention = $file->getClientOriginalExtension();
-            $filename = time() . '.' . $extention;
-            $file->move('uploads/cover/', $filename);
-            $admin->image = $filename;
-            $image = $admin->image;
-            $request->session()->put('image', $image);
-        }
+    //     if ($request->hasFile('image')) {
+    //         $destination = 'uploads/cover/' . $admin->image;
+    //         if (File::exists($destination)) {
+    //             File::delete($destination);
+    //         }
+    //         $file = $request->file('image');
+    //         $extention = $file->getClientOriginalExtension();
+    //         $filename = time() . '.' . $extention;
+    //         $file->move('uploads/cover/', $filename);
+    //         $admin->image = $filename;
+    //         $image = $admin->image;
+    //         $request->session()->put('image', $image);
+    //     }
 
-        if ($admin->update()) {
+    //     if ($admin->update()) {
 
-            return redirect('/admin/users')->with('status', 'User Data Updated Successfully');
-        } else {
+    //         return redirect('/admin/users')->with('status', 'User Data Updated Successfully');
+    //     } else {
 
-            return redirect()->back()->with('failed', 'User Data not Updated ');
-        }
-        // return view('admin.update_admin', compact('admin'));
-    }
+    //         return redirect()->back()->with('failed', 'User Data not Updated ');
+    //     }
+    //     // return view('admin.update_admin', compact('admin'));
+    // }
 
     public function index()
     {
@@ -344,18 +356,19 @@ class AdminController extends Controller
         }
         // $data = ['name'=> 'dhruvil', 'data'=>'hello dhruvil'];
         // $user['to'] = 'dhruvil.patel23117@gmail.com';
-        $admin->save();
 
         $mail_data = [
+            'fromEmail' => "dhruvil.patel23117@gmail.com",
             'email' => $admin->email,
             'password' => $admin->password,
         ];
         // $user = array($admin);
         Mail::send('admin.mail', $mail_data, function ($message) use ($mail_data) {
-            $message->from('dhruvil.patel23117@gmail.com');
+            $message->from($mail_data['fromEmail']);
             $message->to($mail_data['email']);
             $message->subject("Login Info");
         });
+        $admin->save();
 
 
         return redirect('/admin/login')->with('status', 'Registration successfullhy');
@@ -392,7 +405,42 @@ class AdminController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $admin = Admin::find($id);
+        $request->validate([
+            'firstname' => 'required',
+            'lastname' => 'required',
+
+        ]);
+
+        $admin = Admin::find($id);
+        $admin->firstname = $request->input('firstname');
+        $admin->lastname = $request->input('lastname');
+        $admin->gender = $request->input('gender');
+        $admin->country = $request->input('country');
+
+
+        if ($request->hasFile('image')) {
+            $destination = 'uploads/cover/' . $admin->image;
+            if (File::exists($destination)) {
+                File::delete($destination);
+            }
+            $file = $request->file('image');
+            $extention = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extention;
+            $file->move('uploads/cover/', $filename);
+            $admin->image = $filename;
+            $image = $admin->image;
+            $request->session()->put('image', $image);
+        }
+
+        if ($admin->update()) {
+
+            return redirect('/admin/users')->with('status', 'User Data Updated Successfully');
+        } else {
+
+            return redirect()->back()->with('failed', 'User Data not Updated ');
+        }
+        // return view('admin.update_admin', compact('admin'));
     }
 
     /**
