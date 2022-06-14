@@ -33,6 +33,9 @@ Route::group(["prefix" => "/admin"], function () {
 
 });
 
+Route::get('wizard', function () {
+    return view('welcome');
+});
 
 // Route::get('/dashboard', function () {
 //     return view('admin.dashboard');
