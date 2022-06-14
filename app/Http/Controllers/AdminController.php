@@ -413,7 +413,7 @@ class AdminController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        if ($request->ajax()) {
+        
             $admin = Admin::find($id);
             $destination = 'uploads/cover/' . $admin->image;
 
@@ -424,7 +424,7 @@ class AdminController extends Controller
             $admin->delete();
 
             // return redirect('/admin/users')->with('status', 'Admin Data Deleted Successfully');
-        }
+       
         return redirect('/admin/users')->with('status', 'Admin Data Deleted Successfully');
     }
 
