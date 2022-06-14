@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\TeamController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,9 +34,7 @@ Route::group(["prefix" => "/admin"], function () {
 
 });
 
-Route::get('wizard', function () {
-    return view('welcome');
-});
+Route::get('/wizard', [TeamController::class, 'wizard']);
 
 // Route::get('/dashboard', function () {
 //     return view('admin.dashboard');
