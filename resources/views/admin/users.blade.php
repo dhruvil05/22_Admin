@@ -77,8 +77,13 @@
                     {{-- <div class="searching ml-2">
                         <input type="search" name="searchIn" class="form-control search" placeholder="Search">
                     </div> --}}
+
+                    <button type="reset" class="btn btn-danger float-right reset"><i class="fas fa-search"> Reset</i>  </button>
+
                     <b class="pb-2"> Advance Search By</b>
                     <div class="row d-flex justify-content-equal w-100">
+
+
                         <div class="firstname ml-2 mt-2">
                             <input type="text" name="firstnameIn" class="form-control search" placeholder="Firstname">
                         </div>
@@ -94,10 +99,6 @@
                         <div class="country ml-2 mt-2">
                             <input type="text" name="countryIn" class="form-control search" placeholder="country">
                         </div>
-                        {{-- <div class="create">
-                            <a href="{{route('add')}}" class="btn btn-primary float-right">Add
-                                User</a>
-                        </div> --}}
 
                     </div>
 
@@ -203,6 +204,10 @@
 
             });
 
+        });
+
+        $(".reset").click(function() {
+            $(".search").val("  "); // <-- note val() here
         });
     </script>
 @endsection

@@ -198,8 +198,11 @@ class AdminController extends Controller
                     return $formatedDate;
                 })
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="users/edit-user/' . $row->id . '" class="edit btn btn-primary btn-sm d-flex">Edit</a>
-                           <a href="users/delete-user/' . $row->id . '" class="delete btn btn-danger btn-sm mt-2 d-flex">Delete</a>';
+                    $btn = '<a href="users/edit-user/' . $row->id . '" class="edit btn btn-primary btn-sm" style="width:31px">
+                            <i class="fas fa-edit"></i></a>
+                           <a href="users/delete-user/' . $row->id . '" onclick="return confirm(`Are you Sure?`)" class="delete btn btn-danger btn-sm" style="width:31px"><i class="fas fa-trash"></i></a>';
+
+
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -263,7 +266,7 @@ class AdminController extends Controller
         return view('admin.update_admin', compact('admin'));
     }
 
-    
+
 
     public function index()
     {
@@ -413,18 +416,18 @@ class AdminController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        
-            $admin = Admin::find($id);
-            $destination = 'uploads/cover/' . $admin->image;
+
+        $admin = Admin::find($id);
+        $destination = 'uploads/cover/' . $admin->image;
 
 
-            if (File::exists($destination)) {
-                File::delete($destination);
-            }
-            $admin->delete();
+        if (File::exists($destination)) {
+            File::delete($destination);
+        }
+        $admin->delete();
 
-            // return redirect('/admin/users')->with('status', 'Admin Data Deleted Successfully');
-       
+        // return redirect('/admin/users')->with('status', 'Admin Data Deleted Successfully');
+
         return redirect('/admin/users')->with('status', 'Admin Data Deleted Successfully');
     }
 
